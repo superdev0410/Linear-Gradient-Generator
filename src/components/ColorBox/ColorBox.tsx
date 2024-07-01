@@ -1,10 +1,17 @@
-import { memo } from "react"
-import { Box, Heading, Popover } from "@radix-ui/themes"
-import { HexColorPicker } from "react-colorful"
+import { MouseEvent, memo, useCallback } from "react"
+import { Box, Heading, Popover, Flex } from "@radix-ui/themes"
+import { HexColorInput, HexColorPicker } from "react-colorful"
 
 import { ColorBoxProps } from "@/components/ColorBox/ColorBox.type"
 
-const ColorBox = ({color, onAddColor, onChangeColor, onRemoveColor}: ColorBoxProps) => {
+const ColorBox = ({
+  color,
+  disabled = false,
+  disableRemove = false,
+  onAddColor,
+  onChangeColor,
+  onRemoveColor
+}: ColorBoxProps) => {
   const handleChangeColor = (newColor: string) => {
     if (!color) {
       onAddColor(newColor);
@@ -13,26 +20,35 @@ const ColorBox = ({color, onAddColor, onChangeColor, onRemoveColor}: ColorBoxPro
     }
   }
 
+  const handleClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (disabled)  {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, [disabled])
+
   return (
-    <>
+    <Flex className="flex-col">
       <Popover.Root>
         <Popover.Trigger>
           <Box
             className="w-10 h-10 border-2 border-black flex items-center justify-center"
             style={{backgroundColor: color}}
+            onClick={handleClick}
           >
             {
-              !color &&
+              !color && !disabled &&
               <Heading>+</Heading>
             }
           </Box>
         </Popover.Trigger>
-        <Popover.Content>
+        <Popover.Content className="flex flex-col gap-4">
+          <HexColorInput color={color} onChange={handleChangeColor} />
           <HexColorPicker color={color} onChange={handleChangeColor} />
         </Popover.Content>
       </Popover.Root>
       {
-        color &&
+        color && !disableRemove &&
         <Heading
           className="w-10 text-center cursor-pointer"
           size="2"
@@ -41,7 +57,7 @@ const ColorBox = ({color, onAddColor, onChangeColor, onRemoveColor}: ColorBoxPro
           X
         </Heading>
       }
-    </>
+    </Flex>
   )
 }
 
