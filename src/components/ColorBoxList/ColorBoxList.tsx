@@ -1,4 +1,4 @@
-import { Flex } from "@radix-ui/themes";
+import { Flex, Heading } from "@radix-ui/themes";
 
 import ColorBox from "@/components/ColorBox/ColorBox";
 import { ColorBoxListProps } from "@/components/ColorBoxList/ColorBoxList.type";
@@ -16,6 +16,8 @@ const ColorBoxList = ({colors, onChange}: ColorBoxListProps) => {
   }
 
   return (
+    <>    
+    <Heading size="4">Colors: </Heading>
     <Flex className="gap-5">
       {
         Array(5).fill(0).map((_, index) => (
@@ -30,6 +32,7 @@ const ColorBoxList = ({colors, onChange}: ColorBoxListProps) => {
         ))
       }
     </Flex>
+    </>
   )
 }
 
