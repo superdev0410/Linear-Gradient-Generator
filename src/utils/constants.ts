@@ -1,0 +1,1 @@
+export const COLOR_MODES = ["LRGB", "HSL", "HSV", "HCL", "LAB"];
