@@ -3,7 +3,7 @@ import { Flex, Box, Code, Button } from "@radix-ui/themes";
 import chroma, { InterpolationMode } from "chroma-js";
 
 import { ColorBoxList, ColorModeList, PrecisionSlider, AnglePicker, EaseCurveSelect } from "@/components";
-import { COLOR_MODES } from "@/utils/constants";
+import { COLOR_MODES, EASE_CURVE } from "@/utils/constants";
 import { ease, linear, fun } from "@/utils/helper";
 
 const App = () => {
@@ -11,20 +11,20 @@ const App = () => {
   const [colorMode, setColorMode] = useState(COLOR_MODES[0]);
   const [precision, setPrecision] = useState(1);
   const [angle, setAngle] = useState(0);
-  const [curve, setCurve] = useState("Linear");
+  const [curve, setCurve] = useState<string>(EASE_CURVE.Linear);
 
   const gradient = useMemo(() => {
     const data = chroma.scale(colors).mode(colorMode.toLowerCase() as InterpolationMode).colors(precision + colors.length);
     const colorString = data.map((color, step) => {
       let percent;
       switch (curve) {
-        case "Linear":
+        case EASE_CURVE.Linear:
           percent = linear(step / (data.length - 1));
           break;
-        case "Ease":
+        case EASE_CURVE.Ease:
           percent = ease(step / (data.length - 1));
           break;
-        case "Fun":
+        case EASE_CURVE.Fun:
           percent = fun(step / (data.length - 1));
           break;
         default:
