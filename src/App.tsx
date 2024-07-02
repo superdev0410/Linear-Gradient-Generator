@@ -50,7 +50,7 @@ const App = () => {
         <EaseCurveSelect curve={curve} onChange={setCurve} />
         <Code lang="css">
           <pre>
-          background-image: {gradient}
+            background-image: {gradient}
           </pre>
         </Code>
         <Button onClick={onCopy}>Copy CSS</Button>

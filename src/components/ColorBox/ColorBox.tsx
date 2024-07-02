@@ -1,4 +1,4 @@
-import { MouseEvent, memo, useCallback } from "react"
+import { MouseEvent, memo, useCallback, useState, useEffect } from "react"
 import { Box, Heading, Popover, Flex } from "@radix-ui/themes"
 import { HexColorInput, HexColorPicker } from "react-colorful"
 
@@ -12,6 +12,8 @@ const ColorBox = ({
   onChangeColor,
   onRemoveColor
 }: ColorBoxProps) => {
+  const [curColor, setCurColr] = useState(color);
+
   const handleChangeColor = (newColor: string) => {
     if (!color) {
       onAddColor(newColor);
@@ -24,8 +26,14 @@ const ColorBox = ({
     if (disabled)  {
       e.preventDefault();
       e.stopPropagation();
+    } else if (!color) {
+      setCurColr("#000000");
     }
-  }, [disabled])
+  }, [disabled, color]);
+
+  useEffect(() => {
+    setCurColr(color);
+  }, [color]);
 
   return (
     <Flex className="flex-col">
@@ -33,18 +41,18 @@ const ColorBox = ({
         <Popover.Trigger>
           <Box
             className="w-10 h-10 border-2 border-black flex items-center justify-center"
-            style={{backgroundColor: color}}
+            style={{backgroundColor: curColor}}
             onClick={handleClick}
           >
             {
-              !color && !disabled &&
+              !curColor && !disabled &&
               <Heading>+</Heading>
             }
           </Box>
         </Popover.Trigger>
         <Popover.Content className="flex flex-col gap-4">
-          <HexColorInput color={color} onChange={handleChangeColor} />
-          <HexColorPicker color={color} onChange={handleChangeColor} />
+          <HexColorInput color={curColor} onChange={handleChangeColor} />
+          <HexColorPicker color={curColor} onChange={handleChangeColor} />
         </Popover.Content>
       </Popover.Root>
       {

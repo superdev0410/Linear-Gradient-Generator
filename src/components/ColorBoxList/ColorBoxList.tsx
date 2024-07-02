@@ -22,6 +22,7 @@ const ColorBoxList = ({colors, onChange}: ColorBoxListProps) => {
       {
         Array(5).fill(0).map((_, index) => (
           <ColorBox
+            key={index}
             color={colors[index] ?? ""}
             disableRemove={index === 0}
             disabled={!colors[index] && !colors[index - 1]}
