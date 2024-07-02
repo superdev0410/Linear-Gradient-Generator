@@ -1,5 +1,6 @@
 # Linear-Gradient-Generator
 Build a simple linear gradient generator web application.
+![Linear-Gradient-Generator](images/image.png)
 
 ## Tasks
 Build a simple Gradient color generator application (https://www.joshwcomeau.com/gradient-generator/)
