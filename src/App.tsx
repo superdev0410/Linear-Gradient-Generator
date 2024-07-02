@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Flex, Box, Code } from "@radix-ui/themes";
+import { useState, useMemo, useCallback } from "react";
+import { Flex, Box, Code, Button } from "@radix-ui/themes";
 import chroma, { InterpolationMode } from "chroma-js";
 
 import { ColorBoxList, ColorModeList, PrecisionSlider, AnglePicker, EaseCurveSelect } from "@/components";
@@ -35,6 +35,10 @@ const App = () => {
     return `linear-gradient(\n\t${angle}deg,\n\t${colorString}\n)`;
   }, [colors, colorMode, precision, angle, curve]);
 
+  const onCopy = useCallback(async () => {
+    await navigator.clipboard.writeText(gradient);
+  }, [gradient]);
+
   return (
     <Flex className="gap-10 p-4">
       <Box className="w-96 h-96 border-black border-2 flex shrink-0" style={{backgroundImage: gradient}} />
@@ -49,6 +53,7 @@ const App = () => {
           background-image: {gradient}
           </pre>
         </Code>
+        <Button onClick={onCopy}>Copy CSS</Button>
       </Flex>
     </Flex>
   );
