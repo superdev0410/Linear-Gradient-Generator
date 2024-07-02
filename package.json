@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.1.1",
+    "chroma-js": "^2.4.2",
     "react": "^18.2.0",
     "react-angle-picker": "^1.0.8",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/chroma-js": "^2.4.4",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",

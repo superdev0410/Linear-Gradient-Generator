@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Flex, Box } from "@radix-ui/themes";
+import chroma, { InterpolationMode } from "chroma-js";
 
 import { ColorBoxList, ColorModeList, PrecisionSlider, AnglePicker } from "@/components";
 import { COLOR_MODES } from "@/utils/constants";
@@ -10,9 +11,17 @@ const App = () => {
   const [precision, setPrecision] = useState(1);
   const [angle, setAngle] = useState(0);
 
+  const gradient = useMemo(() => {
+    const data = chroma.scale(colors).mode(colorMode.toLowerCase() as InterpolationMode).colors(precision + colors.length);
+    const colorString = data.map((color) => {
+      return `${chroma(color).css('hsl')}`;
+    }).join(", ");
+    return `linear-gradient(${angle}deg, ${colorString})`;
+  }, [colors, colorMode, precision, angle]);
+
   return (
     <Flex className="gap-10 p-4">
-      <Box className="w-96 h-96 border-black border-2" />
+      <Box className="w-96 h-96 border-black border-2" style={{backgroundImage: gradient}} />
       <Flex className="flex-col gap-5">
         <ColorBoxList colors={colors} onChange={setColors} />
         <ColorModeList colorModes={COLOR_MODES} value={colorMode} onChange={setColorMode} />
